@@ -1,0 +1,116 @@
+Testing via CLI
+
+As we've done before, let's create a new bash session in the Vault container:
+
+$ docker-compose exec vault bash
+bash-4.4#
+
+
+The vault operator init command initializes a Vault server. Initialization is the process by which Vault's storage backend is prepared to receive data.
+
+During initialization, Vault generates an in-memory master key and applies Shamir's secret sharing algorithm to disassemble that master key into a configuration number of key shares such that a configurable subset of those key shares must come together to regenerate the master key. These keys are often called unseal keys in Vault's documentation.
+
+Note that this command cannot be run against already-initialized Vault cluster.
+
+bash-4.4# vault operator init
+Unseal Key 1: RDmgJrpou9uEoGhCHuul+yaUVjeVq0qqS0bjZNvSJjBd
+Unseal Key 2: Typ0pcGCF8FiqReFztcoJHdpPavgQtFiyxDuvdkBw+W7
+Unseal Key 3: ZH7dr8kHKlZfYdV49404UfMzSvIqAfxtWoXM8ROxMzkp
+Unseal Key 4: MhaAKFPbZ20h5y1N6l/g453Izi6XdbcOVEWHK2kvMIMc
+Unseal Key 5: RKm7E9q2UVyD7u7JliofmTwknvg/kRGwobUjmi86nGXd
+
+Initial Root Token: 16336cfc-a13c-c288-ee7b-fad06f15475e
+
+Vault initialized with 5 key shares and a key threshold of 3. Please securely
+distribute the key shares printed above. When the Vault is re-sealed,
+restarted, or stopped, you must supply at least 3 of these keys to unseal it
+before it can start servicing requests.
+
+Vault does not store the generated master key. Without at least 3 key to
+reconstruct the master key, Vault will remain permanently sealed!
+
+It is possible to generate new unseal keys, provided you have a quorum of
+existing unseal keys shares. See "vault operator rekey" for more information.
+
+
+The vault operator unseal allows the user to provide a portion of the master key to unseal a Vault server. Vault starts in a sealed state.
+
+bash-4.4# vault operator unseal RKm7E9q2UVyD7u7JliofmTwknvg/kRGwobUjmi86nGXd
+Key                    Value
+---                    -----
+Seal Type              shamir
+Sealed                 false
+Total Shares           5
+Threshold              3
+Version                0.10.3
+Cluster Name           vault-cluster-49bce7b8
+Cluster ID             fb2f7207-6e41-bd12-abe7-ca18b256f001
+HA Enabled             true
+HA Cluster             n/a
+HA Mode                standby
+Active Node Address    
+
+bash-4.4# vault operator unseal MhaAKFPbZ20h5y1N6l/g453Izi6XdbcOVEWHK2kvMIMc
+Key             Value
+---             -----
+Seal Type       shamir
+Sealed          false
+Total Shares    5
+Threshold       3
+Version         0.10.3
+Cluster Name    vault-cluster-49bce7b8
+Cluster ID      fb2f7207-6e41-bd12-abe7-ca18b256f001
+HA Enabled      true
+HA Cluster      https://172.22.0.2:8201
+HA Mode         active
+
+bash-4.4# vault operator unseal ZH7dr8kHKlZfYdV49404UfMzSvIqAfxtWoXM8ROxMzkp
+Key             Value
+---             -----
+Seal Type       shamir
+Sealed          false
+Total Shares    5
+Threshold       3
+Version         0.10.3
+Cluster Name    vault-cluster-49bce7b8
+Cluster ID      fb2f7207-6e41-bd12-abe7-ca18b256f001
+HA Enabled      true
+HA Cluster      https://172.22.0.2:8201
+HA Mode         active
+
+
+bash-4.4# vault login
+Token (will be hidden):
+Success! You are now authenticated. The token information displayed below
+is already stored in the token helper. You do NOT need to run "vault login"
+again. Future Vault requests will automatically use this token.
+
+Key                  Value
+---                  -----
+token                16336cfc-a13c-c288-ee7b-fad06f15475e
+token_accessor       9edd90cb-0eb5-0ef5-2296-1f32a014f870
+token_duration       ∞
+token_renewable      false
+token_policies       ["root"]
+identity_policies    []
+policies             ["root"]
+
+
+The vault login command authenticates users or machines to Vault using the provided arguments. A successful authentication results in a Vault token - conceptually similar to a session token on a website. By default, this token is cached on the local machine for future requests.
+
+Let's add a new static secret:
+
+bash-4.4# vault kv put secret/foo bar=precious
+Success! Data written to: secret/foo
+
+
+To read it back:
+
+bash-4.4# vault kv get secret/foo
+=== Data ===
+Key    Value
+---    -----
+bar    precious
+
+
+One of our Vault server nodes (though we have only one) successfully grabbed a lock within the data store and become an active node:

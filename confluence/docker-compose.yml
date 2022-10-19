@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  confluence:
+    image: atlassian/confluence-server
+    container_name: confluence
+    hostname: confluence
+    volumes:
+      - ./data/confluence:/var/atlassian/application-data/confluence
+    ports:
+      - 8090:8090
+      - 8091:8091
+  db:
+    image: postgres:9.6
+    container_name: postgresql-confluence
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: confluence
+      POSTGRES_USER: confluence
+      POSTGRES_DB: confluence
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgresql-data:/var/lib/postgresql/data
+
+volumes:
+  postgresql-data:

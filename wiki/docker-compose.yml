@@ -1,0 +1,25 @@
+version: '3'
+services:
+  mediawiki:
+    container_name: wiki
+    image: mediawiki
+    ports:
+      - 80:80
+    links:
+      - database
+    volumes:
+      - ./data/volumes/mediawiki/images:/var/www/html/images
+      # Despues de la instalacion copiar el fichero que se genera en esta ruta y descomentar esta linea
+      #- ./data/volumes/mediawiki/LocalSettings.php:/var/www/html/LocalSettings.php
+  database:
+    image: mariadb
+    container_name: db
+    ports:
+        - 3306:3306
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: wiki
+      MYSQL_USER: wikiuser
+      MYSQL_PASSWORD: wikiuser
+    volumes:
+       - ./data/mysql/data:/var/lib/mysql

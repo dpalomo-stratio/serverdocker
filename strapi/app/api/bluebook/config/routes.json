@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/bluebooks",
+      "handler": "bluebook.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/bluebooks/count",
+      "handler": "bluebook.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/bluebooks/:id",
+      "handler": "bluebook.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/bluebooks",
+      "handler": "bluebook.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/bluebooks/:id",
+      "handler": "bluebook.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/bluebooks/:id",
+      "handler": "bluebook.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

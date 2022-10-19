@@ -1,0 +1,19 @@
+version: '3.3'
+services:
+  db:
+    image: 'postgres:9.5'
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=ms1-db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  adminer:
+    image: adminer
+    ports:
+      - 8010:8080
+volumes:
+  data:

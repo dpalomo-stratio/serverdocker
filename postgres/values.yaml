@@ -1,0 +1,10 @@
+dashboard:  
+  enabled: true
+  domain: traefik-ui.dashboard
+rbac:  
+  enabled: true
+kubernetes:  
+  namespaces:
+   - default
+   - kube-system    
+

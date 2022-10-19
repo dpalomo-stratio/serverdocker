@@ -1,0 +1,4 @@
+postgresqlUsername: postgres
+postgresqlPassword: postgres
+postgresqlDatabase: postgres
+service.nodePort: 5432

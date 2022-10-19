@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_vacaciones_componentes",
+  "info": {
+    "name": "componente",
+    "icon": "angry"
+  },
+  "options": {},
+  "attributes": {
+    "vacas": {
+      "type": "string"
+    }
+  }
+}

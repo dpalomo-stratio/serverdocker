@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bluebooks",
+  "info": {
+    "name": "Bluebook",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Vacaciones": {
+      "type": "text"
+    },
+    "data": {
+      "type": "richtext"
+    },
+    "date": {
+      "type": "date"
+    }
+  }
+}

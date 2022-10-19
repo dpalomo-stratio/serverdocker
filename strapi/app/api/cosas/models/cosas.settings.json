@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "cosas",
+  "info": {
+    "name": "Cosas"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cosas": {
+      "type": "richtext"
+    }
+  }
+}

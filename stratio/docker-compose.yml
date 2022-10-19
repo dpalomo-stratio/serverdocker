@@ -1,0 +1,10 @@
+version: '3.3'
+services:
+  db:
+    image: 'qa.stratio.com/stratio/mslogin-front:0.2.0-SNAPSHOT'
+    container_name: Login
+    environment:
+      - API_URL=https://api.labs.stratio.com/login
+      - LOGIN_URL=https://login.labs.stratio.com
+    ports:
+      - '8888:8080'
